@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8" />
+    <title></title>
+  </head>
+  <body>
+    <h2>Hello world!</h2>
+    <h2>Insert your name:</h2>
+    <input type="text" name="your_name" id="input" />
+    <button type="button" name="button" id="button">Submit</button>
+    <p id="hello"></p>
+    <a href="/">Home</a>
+
+    <script type="text/javascript">
+      document.getElementById("button").addEventListener("click", async () => {
+        const input_str = document.getElementById("input").value;
+        if (input_str != "") {
+          const data = {name : input_str};
+          console.log("[button clicked] "+input_str);
+          const response = await fetch("/query/message", {
+            method: 'POST', // *GET, POST, PUT, DELETE, etc.
+            headers: {
+              'Content-Type': 'application/json'
+              // 'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: JSON.stringify(data),
+          });
+          const myJson = await response.json();
+          document.getElementById("hello").innerHTML = myJson.response;
+        }
+        else {
+          document.getElementById("hello").innerHTML = "Please input your name";
+        }
+      })
+    </script>
+  </body>
+</html>
